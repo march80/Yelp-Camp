@@ -8,11 +8,13 @@ const geocoder = mbxGeocoding({accessToken: mapBoxToken})
 module.exports.index = async (req, res, next) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index.ejs', {campgrounds})
+    console.log(req.path)
 }
 
 module.exports.renderNewForm = (req, res) => {
     
     res.render('campgrounds/new.ejs')
+    console.log(req.path)
 }
 
 module.exports.createCampground = async (req, res, next) => {

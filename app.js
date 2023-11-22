@@ -34,8 +34,8 @@ const usersRoutes = require('./routes/user.js')
 // const dbUrl = process.env.DB_URL
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/yelp-camp'
 //Database connections
+// mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
 mongoose.connect(dbUrl)
-// mongoose.connect(dbUrl)
 .then(() => {
     console.log("db connected")
 })
@@ -106,6 +106,7 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret!'
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
+    // mongoUrl: 'mongodb://127.0.0.1:27017/yelp-camp',
     touchAfter: 24 * 60 * 60,
     crypto: {
         secret: secret
@@ -142,7 +143,10 @@ passport.deserializeUser(User.deserializeUser())
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error')
+    res.locals.error = req.flash('error');
+    res.locals.path = req.path
+    
+    console.dir(res.locals.path)
     next();
 })
 
